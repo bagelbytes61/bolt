@@ -3,8 +3,12 @@
 
 #pragma once
 
-namespace bolt {
+#include "instruction.h"
 
+#include <array>
+
+namespace bolt {
+    //extern std::array<nes_fn_instruction, 0xff> instruction_set;
 }
 
 #endif

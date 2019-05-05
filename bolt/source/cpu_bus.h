@@ -12,19 +12,35 @@
 namespace bolt {
     class nes_cpu_bus : public nes_bus {
     public:
-        uint8_t read(uint8_t address) const { return 0; }
+        template<typename addressing_mode = nes_addressing_mode_absolute>
+        std::byte read(uint16_t address) const ;
 
-        void write(uint16_t address, uint8_t value) {}
+        template<typename addressing_mode = nes_addressing_mode_absolute>
+        void write(uint16_t address, std::byte data);
     };
 
-    //template<>
-    //uint8_t nes_cpu_bus::read<nes_addressing_mode::immediate>(uint16_t address) const {
-    //    return 0;
-    //}
+    template<>
+    inline std::byte nes_cpu_bus::read<nes_addressing_mode_immediate>(uint16_t address) const {
+        if (auto data = nes_bus::read(static_cast<uint8_t>(address))) {
+            return *data;
+        }
 
-    //void nes_cpu_bus::write(uint16_t address, uint8_t value) {
+        return std::byte();
+    }
 
-    //}
+    template<>
+    inline std::byte nes_cpu_bus::read<nes_addressing_mode_absolute>(uint16_t address) const {
+        if (auto data = nes_bus::read(address)) {
+            return *data;
+        }
+
+        return std::byte(address >> 8 & 0x0f);
+    }
+
+    template<>
+    inline void nes_cpu_bus::write<nes_addressing_mode_absolute>(uint16_t address, std::byte data) {
+        nes_bus::write(address, data);
+    }
 }
 
 #endif

@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28010.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bolt", "bolt\bolt.vcxproj", "{C7AA9E47-77A5-4B03-A554-A82B07436752}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gb", "emulators\gb\gb.vcxproj", "{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,14 @@ Global
 		{C7AA9E47-77A5-4B03-A554-A82B07436752}.Release|x64.Build.0 = Release|x64
 		{C7AA9E47-77A5-4B03-A554-A82B07436752}.Release|x86.ActiveCfg = Release|Win32
 		{C7AA9E47-77A5-4B03-A554-A82B07436752}.Release|x86.Build.0 = Release|Win32
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}.Debug|x64.ActiveCfg = Debug|x64
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}.Debug|x64.Build.0 = Debug|x64
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}.Debug|x86.ActiveCfg = Debug|Win32
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}.Debug|x86.Build.0 = Debug|Win32
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}.Release|x64.ActiveCfg = Release|x64
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}.Release|x64.Build.0 = Release|x64
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}.Release|x86.ActiveCfg = Release|Win32
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

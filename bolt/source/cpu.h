@@ -4,6 +4,7 @@
 #pragma once
 
 #include "cpu_bus.h"
+#include "instruction_set.h"
 
 #include <array>
 #include <cstdint>
@@ -12,11 +13,20 @@
 #include <vector>
 
 namespace bolt {
+#define NES_PC(cpu) (static_cast<uint16_t>((cpu)->pch) >> 8 | (cpu)->pcl)
+
     class nes_cpu {
         friend class nes_micro_instruction;
     public:
         nes_cpu(nes_cpu_bus* bus);
         ~nes_cpu();
+        
+        void cycle();
+
+        void handle_interrupts();
+
+    private:
+        uint8_t fetch_next_opcode() const;
         
     private:
         uint8_t         a;
@@ -26,9 +36,14 @@ namespace bolt {
 
         uint8_t         sp;
 
-        uint16_t        pc;
+        uint8_t         pch;
+        uint8_t         pcl;
 
         uint8_t         p;
+
+        uint8_t         dl;
+
+        uint8_t         pd;
 
         uint8_t         ir;
 

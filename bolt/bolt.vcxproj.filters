@@ -16,9 +16,6 @@
     <ClInclude Include="source\internal_ram.h">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="source\memory_map.h">
-      <Filter>source</Filter>
-    </ClInclude>
     <ClInclude Include="source\hardware.h">
       <Filter>source</Filter>
     </ClInclude>
@@ -40,18 +37,45 @@
     <ClInclude Include="source\instruction.h">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="source\micro_instruction.h">
+    <ClInclude Include="source\instruction_set.h">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="source\instruction_set.h">
+    <ClInclude Include="source\cartridge.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ppu_registers.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\io_registers.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\instruction_meta_data.h">
       <Filter>source</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="source\main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\instruction_set.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
     <ClCompile Include="source\cpu.cpp">
       <Filter>source</Filter>
     </ClCompile>
-    <ClCompile Include="source\main.cpp">
+    <ClCompile Include="source\internal_ram.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cartridge.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\io_registers.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\emulator.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ppu_registers.cpp">
       <Filter>source</Filter>
     </ClCompile>
   </ItemGroup>

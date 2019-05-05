@@ -1,0 +1,48 @@
+#ifndef BOLT_GB_MICRO_INSTRUCTIONS_H_
+#define BOLT_GB_MICRO_INSTRUCTIONS_H_
+
+#pragma once
+
+#include "cpu.h"
+
+#include <array>
+#include <cassert>
+
+namespace bolt {
+#define GB_MICRO_INSTR_NOT_IMPL       0x00
+#define GB_MICRO_INSTR_INTERNAL_DELAY 0x01
+#define GB_MICRO_INSTR_DECODE_PC      0x02
+#define GB_MICRO_INSTR_FETCH_PCH      0x03
+#define GB_MICRO_INSTR_FETCH_PCL      0x04
+#define GB_MICRO_INSTR_PUSH_PCH       0x05
+#define GB_MICRO_INSTR_PUSH_PCL       0x06
+#define GB_MICRO_INSTR_POP_PCH        0x07
+#define GB_MICRO_INSTR_POP_PCL        0x08
+
+#define GB_MICRO_INSTR_EXPANSION(name) gb_micro_instruction_##name
+#define GB_MICRO_INSTR(name)           GB_MICRO_INSTR_EXPANSION(name)
+
+#define GB_DEFINE_MICRO_INSTR(name)    void GB_MICRO_INSTR(name)(gb_cpu *cpu, gb_bus *bus)
+
+    using gb_micro_instruction_fn = void(*)(gb_cpu *, gb_bus *);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_NOT_IMPL);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_INTERNAL_DELAY);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_DECODE_PC);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_FETCH_PCH);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_FETCH_PCL);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_PUSH_PCH);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_PUSH_PCL);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_POP_PCH);
+
+    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_POP_PCL);
+}
+
+#endif

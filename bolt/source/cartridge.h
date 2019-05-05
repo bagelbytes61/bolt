@@ -1,24 +1,26 @@
-#ifndef BOLT_INTERNAL_RAM_H_
-#define BOLT_INTERNAL_RAM_H_
+#ifndef BOLT_CARTRDIGE_H_
+#define BOLT_CARTRIDGE_H_
 
 #pragma once
 
 #include "hardware.h"
 
 #include <array>
+#include <cstddef>
 #include <cstdint>
 
 namespace bolt {
-    class nes_internal_ram : public nes_hardware {
+    class nes_cartridge : public nes_hardware {
     public:
-        static constexpr uint16_t address_begin = 0x0000;
-        static constexpr uint16_t address_end = 0x0800;
+        static constexpr uint16_t address_begin = 0x4020;
+        static constexpr uint16_t address_end = 0xffff;
 
     private:
         static constexpr size_t address_range = address_end - address_begin + 1;
 
     public:
-        virtual ~nes_internal_ram() override final;
+        nes_cartridge();
+        virtual ~nes_cartridge() override final;
 
         virtual std::byte on_read(uint16_t address) override final;
 
@@ -28,7 +30,11 @@ namespace bolt {
         std::array<std::byte, address_range> data;
     };
 
-    inline nes_internal_ram::~nes_internal_ram() {
+    inline nes_cartridge::nes_cartridge() {
+
+    }
+
+    inline nes_cartridge::~nes_cartridge() {
 
     }
 }

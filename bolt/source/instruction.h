@@ -4,17 +4,16 @@
 #pragma once
 
 #include "addressing_mode.h"
-#include "cpu.h"
-
-#include <array>
+#include "instruction_meta_data.h"
 
 namespace bolt {
-    //using nes_micro_instruction = void(*)(nes_cpu&);
+    class nes_cpu;
 
-    template<typename addressing_mode, template<typename> typename nes_micro_instruction, int... micro_instructions>
+    template<uint8_t opcode>
     class nes_instruction {
     public:
-
+        static constexpr size_t bytes = nes_instruction_meta_data<opcode>::get_bytes();
+        static constexpr size_t cycles = nes_instruction_meta_data<opcode>::get_cycles();
     };
 }
 
