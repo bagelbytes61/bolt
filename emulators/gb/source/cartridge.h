@@ -10,27 +10,28 @@
 
 namespace bolt {
 #define GB_CARTRIDGE_HARDWARE(hardware) ((hardware)->second)
-#define GB_CARTRIDGE_HARDWARE_ADDRESS_BEGIN(hardware) ((hardware)->first.first)
-#define GB_CARTRIDGE_HARDWARE_ADDRESS_END(hardware) ((hardware)->first.second)
+#define GB_CARTRIDGE_HARDWARE_ADDR_BEGIN(hardware) ((hardware)->first.first)
+#define GB_CARTRIDGE_HARDWARE_ADDR_END(hardware) ((hardware)->first.second)
 
     class gb_cartridge_hardware;
 
     class gb_cartridge : public gb_hardware {
     public:
-        static constexpr uint16_t addr_begin = 0x0000;
-        static constexpr uint16_t addr_end = 0x8000;
+        using gb_cartridge_hardware_ptr = std::unique_ptr<gb_cartridge_hardware>;
+
+        static constexpr addr_range_t addr_range = make_addr_range_t(0x0000u, 0x8000u);
 
     public:
         virtual ~gb_cartridge() override final = default;
 
-        void register_hardware(std::unique_ptr<gb_cartridge_hardware> hardware, address_t addr_begin, address_t addr_end);
+        void register_hardware(gb_cartridge_hardware_ptr hardware, addr_range_t addr_range);
 
-        virtual uint8_t on_read(address_t address) const override final;
+        virtual word_t on_read_word(addr_t addr) const override final;
 
-        virtual void on_write(address_t address, word_t data) override final;
+        virtual void on_write_word(addr_t addr, word_t data) override final;
 
     private:
-        std::map<std::pair<address_t, address_t>, std::unique_ptr<gb_cartridge_hardware>> registered_hardware;
+        std::map<addr_range_t, gb_cartridge_hardware_ptr> registered_hardware;
     };
 }
 

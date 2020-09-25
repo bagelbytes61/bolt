@@ -10,9 +10,9 @@ namespace bolt {
     public:
         virtual ~gb_hardware() = default;
 
-        virtual uint8_t on_read(address_t address) const = 0;
-
-        virtual void on_write(address_t address, word_t value) = 0;
+        virtual word_t on_read_word(addr_t addr) const = 0;
+        
+        virtual void on_write_word(addr_t address, word_t value) = 0;
     };
 }
 

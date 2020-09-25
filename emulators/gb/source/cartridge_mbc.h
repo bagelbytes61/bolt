@@ -27,15 +27,15 @@ namespace bolt {
     public:
         virtual ~gb_cartridge_mbc() override = default;
 
-        virtual word_t on_read(address_t address) const override = 0;
+        virtual word_t on_read_word(addr_t addr) const override = 0;
 
-        virtual void on_write(address_t address, word_t value) override = 0;
+        virtual void on_write_word(addr_t addr, word_t value) override = 0;
 
     protected:
-        virtual address_t rom_0000_3fff_physical_address(address_t address) const;
-        virtual address_t rom_4000_7fff_physical_address(address_t address) const;
+        virtual addr_t rom_0000_3fff_physical_address(addr_t addr) const = 0;
+        virtual addr_t rom_4000_7fff_physical_address(addr_t addr) const = 0;
 
-        virtual address_t ram_a000_bfff_physical_address(address_t address) const;
+        virtual addr_t ram_a000_bfff_physical_address(addr_t addr) const = 0;
     };
 }
 

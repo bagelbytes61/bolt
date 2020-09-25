@@ -17,10 +17,10 @@ namespace bolt {
         }
 
         file.seekg(0, std::ios::end);
-        int length = file.tellg();
+        auto length = file.tellg();
         file.seekg(0, std::ios::beg);
 
-        auto rom = std::make_unique<byte_t[]>(length);
+        auto rom = std::make_unique<byte_t[]>(static_cast<size_t>(length));
         file.read(reinterpret_cast<char*>(rom.get()), length);
 
         file.close();

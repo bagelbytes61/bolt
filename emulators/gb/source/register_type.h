@@ -16,11 +16,21 @@ namespace bolt {
 #define GB_INTERNAL_REGISTER_PAIR(a, b) gb_internal_register8_t b, a
 #endif
 
+    using gb_register8_t = uint8_t;
+    using gb_register16_t = uint16_t;
+
+    using gb_internal_register8_t = uint8_t;
+    using gb_internal_register16_t = uint16_t;
+    using gb_internal_register64_t = uint64_t; // I can explain, I promise!
+
     enum struct gb_register8_type : uint8_t {
         a, f,
         b, c,
         d, e,
-        h, l
+        h, l,
+
+        pch, pcl,
+        sph, spl
     };
 
     enum struct gb_register16_type : uint16_t{

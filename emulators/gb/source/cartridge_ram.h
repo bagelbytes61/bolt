@@ -12,20 +12,22 @@ namespace bolt {
     public:
         virtual ~gb_cartridge_ram() override final = default;
 
-        virtual uint8_t on_read(address_t address) const override final;
+        virtual word_t on_read_word(addr_t addr) const override final;
 
-        virtual void on_write(address_t address, word_t value) override final;
+        virtual void on_write_word(addr_t addr, word_t value) override final;
 
     private:
-        std::unique_ptr<byte_t> data;
+        std::unique_ptr<byte_t[]> data;
     };
 
-    inline uint8_t gb_cartridge_ram::on_read(address_t address) const {
-        return data.get()[address];
+    inline word_t gb_cartridge_ram::on_read_word(addr_t addr) const {
+        
+        return data[addr];
     }
 
-    inline void gb_cartridge_ram::on_write(address_t address, word_t value) {
-        data.get()[address] = value;
+    inline void gb_cartridge_ram::on_write_word(addr_t addr, word_t value) {
+        
+        data[addr] = value;
     }
 }
 

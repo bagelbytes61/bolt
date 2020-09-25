@@ -91,6 +91,7 @@
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp17</LanguageStandard>
       <AssemblerOutput>All</AssemblerOutput>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,6 +125,7 @@
       <AssemblerOutput>All</AssemblerOutput>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <PreprocessToFile>false</PreprocessToFile>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -150,6 +152,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="source\alu.cpp" />
+    <ClCompile Include="source\alu_core.cpp" />
     <ClCompile Include="source\bus.cpp" />
     <ClCompile Include="source\cartridge.cpp" />
     <ClCompile Include="source\cartridge_mbc1.cpp" />
@@ -161,6 +165,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\alu.h" />
+    <ClInclude Include="source\alu_core.h" />
+    <ClInclude Include="source\alu_latch.h" />
+    <ClInclude Include="source\alu_multiplexer.h" />
+    <ClInclude Include="source\alu_operation_types.h" />
+    <ClInclude Include="source\alu_shift_register.h" />
     <ClInclude Include="source\bus.h" />
     <ClInclude Include="source\cartridge.h" />
     <ClInclude Include="source\cartridge_country_code.h" />
@@ -176,17 +185,23 @@
     <ClInclude Include="source\cartridge_hardware_type.h" />
     <ClInclude Include="source\emulator.h" />
     <ClInclude Include="source\hardware.h" />
-    <ClInclude Include="source\instruction_encoding.h" />
+    <ClInclude Include="source\instruction.h" />
     <ClInclude Include="source\cartridge_mbc.h" />
     <ClInclude Include="source\cartridge_mbc1.h" />
     <ClInclude Include="source\instruction_table.h" />
     <ClInclude Include="source\micro_instructions.h" />
     <ClInclude Include="source\micro_instruction_table.h" />
+    <ClInclude Include="source\micro_instruction_types.h" />
     <ClInclude Include="source\platform.h" />
+    <ClInclude Include="source\alu_bus.h" />
+    <ClInclude Include="source\register_bus.h" />
     <ClInclude Include="source\register_type.h" />
     <ClInclude Include="source\register_proxy.h" />
     <ClInclude Include="source\cartridge_rom.h" />
     <ClInclude Include="source\vram.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\register_proxy.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

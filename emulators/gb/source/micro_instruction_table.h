@@ -8,20 +8,20 @@
 #include <array>
 
 namespace bolt {
-    constexpr std::array<gb_micro_instruction_fn, 0xff> gb_generate_micro_instr_jump_table() {
-        std::array<gb_micro_instruction_fn, 0xff> table = {};
+    constexpr std::array<gb_micro_instruction_fn, 0xffu> gb_generate_micro_instr_jump_table() {
+        std::array<gb_micro_instruction_fn, 0xffu> micro_instr_jump_table = {};
         
-        table[GB_MICRO_INSTR_NOT_IMPL]       = &GB_MICRO_INSTR(GB_MICRO_INSTR_NOT_IMPL);
-        table[GB_MICRO_INSTR_INTERNAL_DELAY] = &GB_MICRO_INSTR(GB_MICRO_INSTR_INTERNAL_DELAY);
-        table[GB_MICRO_INSTR_DECODE_PC]      = &GB_MICRO_INSTR(GB_MICRO_INSTR_DECODE_PC);
-        table[GB_MICRO_INSTR_FETCH_PCH]      = &GB_MICRO_INSTR(GB_MICRO_INSTR_FETCH_PCH);
-        table[GB_MICRO_INSTR_FETCH_PCL]      = &GB_MICRO_INSTR(GB_MICRO_INSTR_FETCH_PCL);
-        table[GB_MICRO_INSTR_PUSH_PCH]       = &GB_MICRO_INSTR(GB_MICRO_INSTR_PUSH_PCH);
-        table[GB_MICRO_INSTR_PUSH_PCL]       = &GB_MICRO_INSTR(GB_MICRO_INSTR_PUSH_PCL);
-        table[GB_MICRO_INSTR_POP_PCH]        = &GB_MICRO_INSTR(GB_MICRO_INSTR_POP_PCH);
-        table[GB_MICRO_INSTR_POP_PCL]        = &GB_MICRO_INSTR(GB_MICRO_INSTR_POP_PCL);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::not_implemented)] = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::not_implemented);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::internal_delay)]  = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::internal_delay);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::decode_pc)]       = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::decode_pc);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::fetch_pch)]       = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::fetch_pch);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::fetch_pcl)]       = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::fetch_pcl);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::push_pch)]        = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::push_pch);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::push_pcl)]        = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::push_pcl);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::pop_pch)]         = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::pop_pch);
+        micro_instr_jump_table[static_cast<size_t>(gb_micro_instruction_type::pop_pcl)]         = &GB_MICRO_INSTRUCTION(gb_micro_instruction_type::pop_pcl);
 
-        return table;
+        return micro_instr_jump_table;
     }
 }
 

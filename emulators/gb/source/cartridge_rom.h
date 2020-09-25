@@ -12,26 +12,26 @@
 namespace bolt {
     class gb_cartridge_rom : public gb_cartridge_hardware {
     public:
-        static constexpr uint16_t addr_begin = 0x0000;
-        static constexpr uint16_t addr_end   = 0x8000;
+        static constexpr addr_range_t addr_range = make_addr_range_t(0x0000u, 0x8000u);
 
     public:
-        gb_cartridge_rom(std::unique_ptr<byte_t[]> data);
+        gb_cartridge_rom(std::unique_ptr<byte_t[]> &&data);
         virtual ~gb_cartridge_rom() override final = default;
 
-        virtual word_t on_read(address_t address) const override final;
+        virtual word_t on_read_word(addr_t addr) const override final;
 
-        virtual void on_write(address_t address, word_t value) override final;
+        virtual void on_write_word(addr_t addr, word_t value) override final;
 
     private:
         std::unique_ptr<byte_t[]> data;
     };
 
-    inline uint8_t gb_cartridge_rom::on_read(address_t address) const {
-        return data.get()[address];
+    inline uint8_t gb_cartridge_rom::on_read_word(addr_t addr) const {
+        
+        return data[addr];
     }
 
-    inline void gb_cartridge_rom::on_write(address_t address, word_t value) {
+    inline void gb_cartridge_rom::on_write_word(addr_t addr, word_t value) {
 
     }
 }

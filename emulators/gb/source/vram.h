@@ -12,28 +12,27 @@
 namespace bolt {
     class gb_vram : public gb_hardware {
     public:
-        static constexpr uint16_t addr_begin = 0x8000;
-        static constexpr uint16_t addr_end = 0xa000;
+        static constexpr addr_range_t addr_range = make_addr_range_t(0x8000u, 0xa000u);
 
     public:
         virtual ~gb_vram() override final = default;
 
-        virtual uint8_t
-            on_read(address_t address) const override final;
+        virtual word_t 
+            on_read_word(addr_t addr) const override final;
 
-        virtual void
-            on_write(address_t address, word_t value) override final;
+        virtual void 
+            on_write_word(addr_t addr, word_t value) override final;
 
     private:
-        std::array<byte_t, 0x2000> data;
+        std::array<byte_t, 0x2000u> data;
     };
 
-    inline uint8_t gb_vram::on_read(address_t address) const {
-        return data[address];
+    inline auto gb_vram::on_read_word(addr_t addr) const -> word_t {
+        return data[addr];
     }
 
-    inline void gb_vram::on_write(address_t address, word_t value) {
-        data[address] = value;
+    inline auto gb_vram::on_write_word(addr_t addr, word_t value) -> void {
+        data[addr] = value;
     }
 }
 

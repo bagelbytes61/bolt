@@ -4,45 +4,49 @@
 #pragma once
 
 #include "cpu.h"
+#include "micro_instruction_types.h"
 
 #include <array>
 #include <cassert>
 
 namespace bolt {
-#define GB_MICRO_INSTR_NOT_IMPL       0x00
-#define GB_MICRO_INSTR_INTERNAL_DELAY 0x01
-#define GB_MICRO_INSTR_DECODE_PC      0x02
-#define GB_MICRO_INSTR_FETCH_PCH      0x03
-#define GB_MICRO_INSTR_FETCH_PCL      0x04
-#define GB_MICRO_INSTR_PUSH_PCH       0x05
-#define GB_MICRO_INSTR_PUSH_PCL       0x06
-#define GB_MICRO_INSTR_POP_PCH        0x07
-#define GB_MICRO_INSTR_POP_PCL        0x08
+    using gb_micro_instruction_fn = void(*)(gb_cpu::gb_register_bus *, gb_bus *);
 
-#define GB_MICRO_INSTR_EXPANSION(name) gb_micro_instruction_##name
-#define GB_MICRO_INSTR(name)           GB_MICRO_INSTR_EXPANSION(name)
+    template<gb_micro_instruction_type>
+    void gb_micro_instruction(gb_cpu::gb_register_bus *register_bus, gb_bus *bus) {
+        
+        static_assert(false, "template<gb_micro_instruction_type> void gb_micro_instruction(gb_cpu *, gb_bus *) must have an explicit specialization!");
+                             
+    }
+    
+#define GB_MICRO_INSTRUCTION(instruction) \
+    gb_micro_instruction<instruction>
 
-#define GB_DEFINE_MICRO_INSTR(name)    void GB_MICRO_INSTR(name)(gb_cpu *cpu, gb_bus *bus)
+#define GB_MICRO_INSTRUCTION_PROTOTYPE(instruction)     \
+    template<>                                          \
+    void GB_MICRO_INSTRUCTION(instruction)(gb_cpu::gb_register_bus *register_bus, gb_bus *peripheral_bus)
 
-    using gb_micro_instruction_fn = void(*)(gb_cpu *, gb_bus *);
+#define GB_MICRO_INSTRUCTION_DEFINITION(instruction)    \
+    template<>                                          \
+    void GB_MICRO_INSTRUCTION(instruction)(gb_cpu::gb_register_bus *register_bus, gb_bus *peripheral_bus)
+  
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::not_implemented);
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_NOT_IMPL);
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::internal_delay);
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_INTERNAL_DELAY);
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::decode_pc);
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_DECODE_PC);
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::fetch_pch);
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_FETCH_PCH);
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::fetch_pcl);
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_FETCH_PCL);
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::push_pch);
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_PUSH_PCH);
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::push_pcl);
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_PUSH_PCL);
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::pop_pch);
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_POP_PCH);
-
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_POP_PCL);
+    GB_MICRO_INSTRUCTION_PROTOTYPE(gb_micro_instruction_type::pop_pcl);
 }
 
 #endif

@@ -4,32 +4,31 @@
 
 using namespace bolt;
 
-void gb_bus::register_hardware(std::shared_ptr<gb_hardware> hardware, address_t addr_begin, address_t addr_end) {
-    registered_hardware.insert({ { addr_begin, addr_end }, hardware });
+void gb_bus::register_hardware(gb_hardware_ptr_t hardware, addr_range_t addr_range) {
+
+    registered_hardware.insert({ addr_range, hardware });
 }
 
-uint8_t gb_bus::read(address_t address) {
+word_t gb_bus::read_word(addr_t addr) const {
     auto hardware_it = registered_hardware.begin();
 
-    while (address >= GB_HARDWARE_ADDRESS_END(hardware_it)) { ++hardware_it; };
+    while (addr >= GB_HARDWARE_ADDR_END(hardware_it)) { ++hardware_it; };
 
     if (hardware_it != registered_hardware.end()) {
-        const uint16_t offset = GB_HARDWARE_ADDRESS_BEGIN(hardware_it);
 
-        return GB_HARDWARE(hardware_it)->on_read(address - offset);
+        return GB_HARDWARE(hardware_it)->on_read_word(addr - GB_HARDWARE_ADDR_BEGIN(hardware_it));
     }
 
     return {};
 }
 
-void gb_bus::write(address_t address, word_t data) {
+void gb_bus::write_word(addr_t addr, word_t value) {
     auto hardware_it = registered_hardware.begin();
 
-    while (address >= GB_HARDWARE_ADDRESS_END(hardware_it++));
+    while (addr >= GB_HARDWARE_ADDR_END(hardware_it++));
 
     if (hardware_it != registered_hardware.end()) {
-        const uint16_t offset = GB_HARDWARE_ADDRESS_BEGIN(hardware_it);
 
-        GB_HARDWARE(hardware_it)->on_write(address, data);
+        GB_HARDWARE(hardware_it)->on_write_word(addr - GB_HARDWARE_ADDR_BEGIN(hardware_it), value);
     }
 }

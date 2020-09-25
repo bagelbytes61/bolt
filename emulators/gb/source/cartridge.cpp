@@ -4,24 +4,31 @@
 
 using namespace bolt;
 
-void gb_cartridge::register_hardware(std::unique_ptr<gb_cartridge_hardware> hardware, address_t addr_begin, address_t addr_end) {
-    registered_hardware.insert({ std::make_pair(addr_begin, addr_end), std::move(hardware) });
+void gb_cartridge::register_hardware(gb_cartridge_hardware_ptr hardware, addr_range_t addr_range) {
+
+    registered_hardware.insert({ addr_range, std::move(hardware) });
 }
 
-word_t gb_cartridge::on_read(address_t address) const {
+word_t gb_cartridge::on_read_word(addr_t addr) const {
     auto hardware_it = registered_hardware.begin();
 
-    while (address >= GB_CARTRIDGE_HARDWARE_ADDRESS_END(hardware_it)) { ++hardware_it; };
+    while (addr >= GB_CARTRIDGE_HARDWARE_ADDR_END(hardware_it)) { ++hardware_it; };
 
     if (hardware_it != registered_hardware.end()) {
-        const uint16_t offset = GB_CARTRIDGE_HARDWARE_ADDRESS_BEGIN(hardware_it);
 
-        return GB_CARTRIDGE_HARDWARE(hardware_it)->on_read(address - offset);
+        return GB_CARTRIDGE_HARDWARE(hardware_it)->on_read_word(addr - GB_CARTRIDGE_HARDWARE_ADDR_BEGIN(hardware_it));
     }
 
     return {};
 }
 
-void gb_cartridge::on_write(address_t address, word_t value) {
+void gb_cartridge::on_write_word(addr_t addr, word_t value) {
+    auto hardware_it = registered_hardware.begin();
 
+    while (addr >= GB_CARTRIDGE_HARDWARE_ADDR_END(hardware_it)) { ++hardware_it; }
+
+    if (hardware_it != registered_hardware.end()) {
+
+        GB_CARTRIDGE_HARDWARE(hardware_it)->on_write_word(addr, value);
+    }
 }

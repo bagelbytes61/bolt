@@ -10,21 +10,23 @@
 
 namespace bolt {
 #define GB_HARDWARE(hardware) ((hardware)->second)
-#define GB_HARDWARE_ADDRESS_BEGIN(hardware) ((hardware)->first.first)
-#define GB_HARDWARE_ADDRESS_END(hardware) ((hardware)->first.second)
+#define GB_HARDWARE_ADDR_BEGIN(hardware) ((hardware)->first.first)
+#define GB_HARDWARE_ADDR_END(hardware) ((hardware)->first.second)
 
-    class gb_hardware;
+    class gb_hardware; 
 
     class gb_bus {
+        using gb_hardware_ptr_t = std::shared_ptr<gb_hardware>;
+
     public:
-        void register_hardware(std::shared_ptr<gb_hardware> hardware, address_t addr_begin, address_t addr_end);
+        void register_hardware(gb_hardware_ptr_t hardware, addr_range_t addr_range);
 
-        uint8_t read(address_t address);
+        word_t read_word(addr_t addr) const;
 
-        void write(address_t address, word_t value);
+        void write_word(addr_t addr, word_t value);
 
     private:
-        std::map<std::pair<address_t, address_t>, std::shared_ptr<gb_hardware>> registered_hardware;
+        std::map<addr_range_t, gb_hardware_ptr_t> registered_hardware;
     };
 }
 

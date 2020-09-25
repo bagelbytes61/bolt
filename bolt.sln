@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bolt", "bolt\bolt.vcxproj",
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "gb", "emulators\gb\gb.vcxproj", "{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "emulators", "emulators", "{20A8C7E9-49EB-4C15-9974-C287610D3C55}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -34,6 +36,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{788C0E23-05D0-4D3B-A0CA-EAB9E0819E3A} = {20A8C7E9-49EB-4C15-9974-C287610D3C55}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8515F674-70DD-4AA8-9AE8-C5478484271A}

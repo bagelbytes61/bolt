@@ -1,14 +1,24 @@
 #include "cpu.h"
 
 #include "alu.h"
-#include "instruction_encoding.h"
+#include "instruction.h"
 #include "micro_instruction_table.h"
 
 using namespace bolt;
 
-constexpr std::array<gb_micro_instruction_fn, 0xff> gb_micro_instruction_table = gb_generate_micro_instr_jump_table();
+constexpr std::array<gb_micro_instruction_fn, 0xffu> gb_micro_instruction_table = gb_generate_micro_instr_jump_table();
 
-gb_cpu::gb_cpu(std::unique_ptr<gb_bus> bus)
+static void print_ir(gb_internal_register64_t ir) {
+    //std::printf("Micro instruction sequence length: %llu\n", GB_DECODE_MICRO_INSTR_SEQU_LEN(ir));
+    //std::printf("Micro instruction sequence 5: %llu\n", GB_DECODE_MICRO_INSTR_SEQU_5(ir));
+    //std::printf("Micro instruction sequence 4: %llu\n", GB_DECODE_MICRO_INSTR_SEQU_4(ir));
+    //std::printf("Micro instruction sequence 3: %llu\n", GB_DECODE_MICRO_INSTR_SEQU_3(ir));
+    //std::printf("Micro instruction sequence 2: %llu\n", GB_DECODE_MICRO_INSTR_SEQU_2(ir));
+    //std::printf("Micro instruction sequence 1: %llu\n", GB_DECODE_MICRO_INSTR_SEQU_1(ir));
+    //std::printf("Micro instruction sequence position: %llu\n", GB_DECODE_MICRO_INSTR_SEQU_POS(ir));
+}
+
+gb_cpu::gb_cpu(std::unique_ptr<gb_bus> &&bus)
     : a(0x01u), f(0xb0u)
     , b(0x00u), c(0x13u)
     , d(0x00u), e(0xd8u)
@@ -16,34 +26,23 @@ gb_cpu::gb_cpu(std::unique_ptr<gb_bus> bus)
     , pc(0x100u), sp(0xfffeu)
     , ir(0x00ull)
     , w(0x00u), z(0x00u)
-    , bus(std::move(bus))
-    , alu(std::make_unique<gb_alu>(this)) {
+    , bus(std::move(bus)) {
 
-    // First decode the initial instruction at the current PC position as we
-    // decode the next instruction at the end of the current instruction
-    GB_MICRO_INSTR(GB_MICRO_INSTR_DECODE_PC)(this, this->bus.get());
-
-    // Next make sure to advance the micro instruction sequence position 
-    // to the first micro instruction
-    GB_ADVANCE_MICRO_INSTR(ir);
+    // First decode the initial instruction at the current PC position as we always
+    // decode the following instruction at the end of the current instruction.
+    GB_MICRO_INSTRUCTION(gb_micro_instruction_type::decode_pc)(get_register_bus(), this->bus.get());
 }
 
 gb_cpu::~gb_cpu() {
 
 }
 
-void gb_cpu::machine_cycle() {
-    if (GB_DECODE_ALU_OP(ir) != 0) {
-        alu->machine_cycle();
-    }
+void gb_cpu::machine_cycle(void) {
+    const auto micro_instr_sequ_pos = gb_decode_micro_instr_sequ_pos(ir);
 
-    switch (GB_DECODE_MICRO_INSTR_SEQU_POS(ir)) {
-        case GB_MICRO_INSTR_SEQU_POS_1: gb_micro_instruction_table[GB_DECODE_MICRO_INSTR_SEQU_1(ir)](this, bus.get()); break;
-        case GB_MICRO_INSTR_SEQU_POS_2: gb_micro_instruction_table[GB_DECODE_MICRO_INSTR_SEQU_2(ir)](this, bus.get()); break;
-        case GB_MICRO_INSTR_SEQU_POS_3: gb_micro_instruction_table[GB_DECODE_MICRO_INSTR_SEQU_3(ir)](this, bus.get()); break;
-        case GB_MICRO_INSTR_SEQU_POS_4: gb_micro_instruction_table[GB_DECODE_MICRO_INSTR_SEQU_4(ir)](this, bus.get()); break;
-        case GB_MICRO_INSTR_SEQU_POS_5: gb_micro_instruction_table[GB_DECODE_MICRO_INSTR_SEQU_5(ir)](this, bus.get()); break;
-    }
+    const auto micro_instr_sequ = gb_decode_micro_instr_sequ(ir, static_cast<size_t>(micro_instr_sequ_pos));
+    
+    const auto micro_instr = gb_micro_instruction_table.at(static_cast<size_t>(micro_instr_sequ));
 
-    GB_ADVANCE_MICRO_INSTR(ir);
+    micro_instr(get_register_bus(), bus.get());
 }

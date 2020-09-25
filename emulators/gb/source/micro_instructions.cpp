@@ -1,79 +1,122 @@
 #include "micro_instructions.h"
 
 #include "instruction_table.h"
+#include "register_bus.h"
 
 using namespace bolt;
 
-constexpr std::array<uint64_t, 0xff> gb_instr_encode_table = gb_generate_instr_encode_table();
-
 namespace bolt {
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_NOT_IMPL) {
-        std::printf("PC: %04x\n", static_cast<uint16_t>(cpu->get_register(gb_register16_type::pc)));
-        std::printf("Instruction: %02x\n", bus->read(static_cast<uint16_t>(cpu->get_register(gb_register16_type::pc))));
+    static std::array<gb_instruction_t, 0xffu> gb_instr_encode_table = gb_generate_instr_encode_table();
+
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::not_implemented) {
+        std::puts("!!!INSTRUCTION NOT IMPLEMENTED!!!");
+        std::printf("PC: %#06x\n",       static_cast<gb_register16_t>(register_bus->get_register(gb_register16_type::pc)));
+        std::printf("Instruction: %#04x\n", peripheral_bus->read_word(register_bus->get_register(gb_register16_type::pc)));
 
         assert(false);
     }
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_INTERNAL_DELAY) {
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::internal_delay) {
+        auto ir = register_bus->get_internal_register(gb_internal_register64_type::ir);
 
+        ir = gb_advance_micro_instr(ir);
     }
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_DECODE_PC) {
-        auto pc = cpu->get_register(gb_register16_type::pc);
-        auto ir = cpu->get_internal_register(gb_internal_register64_type::ir);
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::decode_pc) {
+        auto pc = register_bus->get_register(gb_register16_type::pc);
+        auto ir = register_bus->get_internal_register(gb_internal_register64_type::ir);
 
-        if (GB_DECODE_INSTR_UPDATE_PC(ir)) {
-            pc += GB_DECODE_INSTR_LEN(ir);
+        if (gb_decode_instr_update_pc(ir)) {
+            pc += static_cast<gb_register16_t>(gb_decode_instr_length(ir));
         }
 
-        // Note that this is performing a deep-copy to the underlying register itself
-        ir = gb_instr_encode_table[bus->read(pc)];
+        // Note that this is copying via the proxy to the underlying register itself.
+        ir = gb_instr_encode_table[peripheral_bus->read_word(pc)];
 
-        auto f = cpu->get_internal_register(gb_register8_type::f);
-        if (f & GB_DECODE_INSTR_CC(ir)) {
-            f ^= ((f & GB_INSTR_CC_EVAL_MASK) ^ GB_ENCODE_INSTR_CC_EVAL(GB_INSTR_CC_EVAL_TRUE));
+        std::printf("Instruction: %#04x\n", (uint16_t)gb_decode_instr_opcode(ir));
+
+        //auto f = register_bus->get_register(gb_register8_type::f);
+        //if ((GB_DECODE_CC(ir) != GB_CC_NONE) && (f & GB_DECODE_CC(ir))) {
+        //    f ^= ((f & GB_CC_EVAL_MASK) ^ GB_ENCODE_CC_EVAL(GB_CC_EVAL_TRUE));
+        //}
+
+        //if ((GB_DECODE_ALU_OP(ir) != GB_ALU_OP_NOP)) {
+        //    
+        //}
+    }
+
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::fetch_pch) {
+        auto pc = register_bus->get_register(gb_register16_type::pc);
+        auto w = register_bus->get_internal_register(gb_internal_register8_type::w);
+
+        w = peripheral_bus->read_word(pc + 2u);
+
+        auto ir = register_bus->get_internal_register(gb_internal_register64_type::ir);
+
+        if (gb_decode_instr_cc(ir) == static_cast<gb_instruction_t>(gb_instruction_cc::none) || gb_decode_instr_cc_eval(ir)) {
+            // Note that these are copying via the proxies to the underlying registers
+            pc.get_high_register() = register_bus->get_internal_register(gb_internal_register8_type::w);
+            pc.get_low_register() = register_bus->get_internal_register(gb_internal_register8_type::z);
         }
+        
+        // Note that this is copying via the proxy to the underlying register
+        ir = gb_advance_micro_instr(ir);
     }
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_FETCH_PCH) {
-        auto pc = cpu->get_register(gb_register16_type::pc);
-        auto w = cpu->get_internal_register(gb_internal_register8_type::w);
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::fetch_pcl) {
+        auto pc = register_bus->get_register(gb_register16_type::pc);
+        auto z = register_bus->get_internal_register(gb_internal_register8_type::z);
 
-        w = bus->read(pc + 2);
+        // Note that this is copying via the proxy to the underlying register itself.
+        z = peripheral_bus->read_word(pc + 1u);
 
-        auto ir = cpu->get_internal_register(gb_internal_register64_type::ir);
-        if (GB_DECODE_INSTR_CC_EVAL(ir) == GB_INSTR_CC_EVAL_TRUE) {
-            // Note that these are performing deep-copies to the underlying registers themselves
-            // rather than copying the register pointers
-            pc.get_high_register() = cpu->get_internal_register(gb_internal_register8_type::w);
-            pc.get_low_register() = cpu->get_internal_register(gb_internal_register8_type::z);
-        }
+        auto ir = register_bus->get_internal_register(gb_internal_register64_type::ir);
+
+        // Note that this is copying via the proxy to the underlying register
+        ir = gb_advance_micro_instr(ir);
     }
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_FETCH_PCL) {
-        auto pc = cpu->get_register(gb_register16_type::pc);
-        auto z = cpu->get_internal_register(gb_internal_register8_type::z);
-
-        z = bus->read(pc + 1);
-    }
-
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_PUSH_PCH) {
-        auto pch = cpu->get_register(gb_register16_type::pc).get_high_register();
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::push_pch) {
+        auto pch = register_bus->get_register(gb_register16_type::pc).get_high_register();
+        
         pch.push();
+
+        auto ir = register_bus->get_internal_register(gb_internal_register64_type::ir);
+
+        // Note that this is copying via the proxy to the underlying register
+        ir = gb_advance_micro_instr(ir);
     }
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_PUSH_PCL) {
-        auto pcl = cpu->get_register(gb_register16_type::pc).get_high_register();
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::push_pcl) {
+        auto pcl = register_bus->get_register(gb_register16_type::pc).get_high_register();
+        
         pcl.push();
+
+        auto ir = register_bus->get_internal_register(gb_internal_register64_type::ir);
+
+        // Note that this is copying via the proxy to the underlying register
+        ir = gb_advance_micro_instr(ir);
     }
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_POP_PCH) {
-        auto pch = cpu->get_register(gb_register16_type::pc).get_high_register();
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::pop_pch) {
+        auto pch = register_bus->get_register(gb_register16_type::pc).get_high_register();
+        
         pch.pop();
+
+        auto ir = register_bus->get_internal_register(gb_internal_register64_type::ir);
+
+        // Note that this is copying via the proxy to the underlying register
+        ir = gb_advance_micro_instr(ir);
     }
 
-    GB_DEFINE_MICRO_INSTR(GB_MICRO_INSTR_POP_PCL) {
-        auto pcl = cpu->get_register(gb_register16_type::pc).get_high_register();
+    GB_MICRO_INSTRUCTION_DEFINITION(gb_micro_instruction_type::pop_pcl) {
+        auto pcl = register_bus->get_register(gb_register16_type::pc).get_high_register();
+        
         pcl.pop();
+
+        auto ir = register_bus->get_internal_register(gb_internal_register64_type::ir);
+
+        // Note that this is copying via the proxy to the underlying register
+        ir = gb_advance_micro_instr(ir);
     }
 }

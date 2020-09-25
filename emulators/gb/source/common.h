@@ -5,15 +5,25 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <utility>
 
 namespace bolt {
-    using address_t = uint16_t;
-    using address_ext_t = size_t;
-    using word_t = uint8_t;
+    using addr_t = uint16_t;
+    using addr_ext_t = size_t;
+    using addr_range_t = std::pair<addr_t, addr_t>;
+    
+    using nibble_t = uint8_t;
     using byte_t = uint8_t;
+    using word_t = byte_t;
 
-    inline bool addr_in_range(address_t address, address_t begin, address_t end) {
-        return (address >= begin && address < end);
+    inline constexpr addr_range_t make_addr_range_t(addr_t addr_begin, addr_t addr_end) {
+        
+        return { addr_begin, addr_end };
+    }
+
+    inline constexpr bool addr_in_range(addr_t addr, addr_range_t addr_range) {
+        
+        return (addr >= addr_range.first && addr < addr_range.second);
     }
 }
 

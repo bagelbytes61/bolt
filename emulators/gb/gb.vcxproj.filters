@@ -16,6 +16,9 @@
     <Filter Include="source\cartridge\reader">
       <UniqueIdentifier>{0f2e11e3-1a66-49a8-b9b7-40ff77ad0d31}</UniqueIdentifier>
     </Filter>
+    <Filter Include="source\alu">
+      <UniqueIdentifier>{f7dfbaab-0f5c-48f4-a886-dca63171486e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main.cpp">
@@ -41,6 +44,12 @@
     </ClCompile>
     <ClCompile Include="source\micro_instructions.cpp">
       <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\alu.cpp">
+      <Filter>source\alu</Filter>
+    </ClCompile>
+    <ClCompile Include="source\alu_core.cpp">
+      <Filter>source\alu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -110,20 +119,49 @@
     <ClInclude Include="source\emulator.h">
       <Filter>source</Filter>
     </ClInclude>
-    <ClInclude Include="source\alu.h">
-      <Filter>source</Filter>
-    </ClInclude>
     <ClInclude Include="source\micro_instruction_table.h">
-      <Filter>source</Filter>
-    </ClInclude>
-    <ClInclude Include="source\instruction_encoding.h">
       <Filter>source</Filter>
     </ClInclude>
     <ClInclude Include="source\instruction_table.h">
       <Filter>source</Filter>
     </ClInclude>
+    <ClInclude Include="source\alu.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_bus.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_core.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_latch.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
     <ClInclude Include="source\micro_instructions.h">
       <Filter>source</Filter>
     </ClInclude>
+    <ClInclude Include="source\micro_instruction_types.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_operation_types.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\instruction.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\register_bus.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_shift_register.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_multiplexer.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\register_proxy.inl">
+      <Filter>source</Filter>
+    </None>
   </ItemGroup>
 </Project>
