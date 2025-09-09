@@ -1,0 +1,200 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{c5a05d71-d83a-4ae8-ab8e-f21397d6d091}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\cartridge">
+      <UniqueIdentifier>{bc66db5f-9177-4c78-b2ad-f14f568e3619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\cartridge\hardware">
+      <UniqueIdentifier>{bb4b8250-822f-4752-b388-085a076e5a34}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\cartridge\hardware\mbc">
+      <UniqueIdentifier>{dc24fe67-60a8-4896-9013-3cd543ba8faf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\cartridge\reader">
+      <UniqueIdentifier>{0f2e11e3-1a66-49a8-b9b7-40ff77ad0d31}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="source\alu">
+      <UniqueIdentifier>{f7dfbaab-0f5c-48f4-a886-dca63171486e}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\main.cc">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\bus.cc">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cartridge.cpp">
+      <Filter>source\cartridge</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cartridge_reader.cpp">
+      <Filter>source\cartridge\reader</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cartridge_rom.cpp">
+      <Filter>source\cartridge\hardware</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cartridge_mbc1.cpp">
+      <Filter>source\cartridge\hardware\mbc</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cpu.cc">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\micro_instructions.cc">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\alu_core.cc">
+      <Filter>source\alu</Filter>
+    </ClCompile>
+    <ClCompile Include="instruction.cc">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\alu.cc">
+      <Filter>source\alu</Filter>
+    </ClCompile>
+    <ClCompile Include="source\alu_bus.cc">
+      <Filter>source\alu</Filter>
+    </ClCompile>
+    <ClCompile Include="source\decoder.cc">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\cpu.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bus.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\platform.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\register_proxy.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\hardware.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge.h">
+      <Filter>source\cartridge</Filter>
+    </ClInclude>
+    <ClInclude Include="source\register_type.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_hardware.h">
+      <Filter>source\cartridge\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_hardware_type.h">
+      <Filter>source\cartridge\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_reader.h">
+      <Filter>source\cartridge\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_country_code.h">
+      <Filter>source\cartridge\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_licensee.h">
+      <Filter>source\cartridge\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_ram_size.h">
+      <Filter>source\cartridge\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_rom_size.h">
+      <Filter>source\cartridge\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_type.h">
+      <Filter>source\cartridge\reader</Filter>
+    </ClInclude>
+    <ClInclude Include="source\vram.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_mbc.h">
+      <Filter>source\cartridge\hardware\mbc</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_rom.h">
+      <Filter>source\cartridge\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_mbc1.h">
+      <Filter>source\cartridge\hardware\mbc</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge_ram.h">
+      <Filter>source\cartridge\hardware</Filter>
+    </ClInclude>
+    <ClInclude Include="source\common.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\emulator.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\micro_instruction_table.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\instruction_table.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_bus.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_core.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_latch.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\micro_instructions.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\micro_instruction_types.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_operation_types.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\instruction.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\register_bus.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_shift_register.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_multiplexer.h">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\hram.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\operand.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\alu_peripheral.hh">
+      <Filter>source\alu</Filter>
+    </ClInclude>
+    <ClInclude Include="source\idu.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\register_file.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\decoder.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\tstate.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\clock.hh">
+      <Filter>source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\register_proxy.inl">
+      <Filter>source</Filter>
+    </None>
+  </ItemGroup>
+</Project>

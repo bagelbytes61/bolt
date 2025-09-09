@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="source">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\cpu.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\emulator.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\internal_ram.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\hardware.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ppu_bus.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\bus.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cpu_bus.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ppu.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\addressing_mode.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\instruction.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\instruction_set.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\cartridge.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\ppu_registers.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\io_registers.h">
+      <Filter>source</Filter>
+    </ClInclude>
+    <ClInclude Include="source\instruction_meta_data.h">
+      <Filter>source</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\main.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\instruction_set.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cpu.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\internal_ram.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\cartridge.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\io_registers.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\emulator.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+    <ClCompile Include="source\ppu_registers.cpp">
+      <Filter>source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
